@@ -16,3 +16,4 @@ DerivedData/
 
 # Для VS Code
 .vscode/
+.venv/
