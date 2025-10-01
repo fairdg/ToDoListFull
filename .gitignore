@@ -10,9 +10,13 @@ venv/
 # Для Node.js (если используешь)
 node_modules/
 
-# Для Swift
+# Для Swift / Xcode
 DerivedData/
-*.xcodeproj/
+xcuserdata/
+*.xcworkspace/
+*.xcuserstate
+*.swp
+*.DS_Store
 
 # Для VS Code
 .vscode/

@@ -1,6 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import MobileCoreServices
+import Combine
 
 struct TodoItem: Identifiable, Codable, Equatable {
     var id: Int
@@ -33,7 +34,7 @@ enum APIError: Error, LocalizedError {
 }
 
 final class APIClient {
-    private let baseURL = URL(string: "http://127.0.0.1:8000/api")!
+    private let baseURL = URL(string: "http://192.168.0.7:8000/api")!
     private let session: URLSession
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
@@ -51,8 +52,8 @@ final class APIClient {
     }
 
     func fetchTasks() async throws -> [TodoItem] {
-        let url = baseURL.appendingPathComponent("tasks")
-        let (data, response) = try await session.data(from: url)
+        let request = URLRequest(url: baseURL.appendingPathComponent("tasks"))
+        let (data, response) = try await data(for: request)
         guard response.statusCode == 200 else { throw APIError.badStatus(response.statusCode) }
         return try decoder.decode([TodoItem].self, from: data)
     }

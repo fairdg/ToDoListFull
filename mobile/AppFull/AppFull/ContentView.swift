@@ -128,7 +128,7 @@ struct ContentView: View {
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Внимание"), message: Text(alertMessage), dismissButton: .default(Text("ОК")))
         }
-        .onChange(of: vm.lastErrorMessage) { newValue in
+        .onChangeCompat(of: vm.lastErrorMessage) { newValue in
             if let message = newValue {
                 alertMessage = message
                 showAlert = true
@@ -216,4 +216,17 @@ struct ActivityView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
+private extension View {
+    @ViewBuilder
+    func onChangeCompat<Value: Equatable>(of value: Value, perform action: @escaping (Value) -> Void) -> some View {
+        if #available(iOS 17.0, *) {
+            onChange(of: value, initial: false) { _, newValue in
+                action(newValue)
+            }
+        } else {
+            onChange(of: value, perform: action)
+        }
+    }
 }
