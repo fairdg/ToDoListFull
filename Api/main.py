@@ -45,9 +45,6 @@ class TaskAddSchema(BaseModel):
     text: str = Field(min_length=1, max_length=500)
     completed: bool = False
 
-class TaskSchema(TaskAddSchema):
-    id: int
-
 def serialize_task(task: "TaskModel") -> dict:
     return {"id": task.id, "text": task.text, "completed": task.completed}
 
